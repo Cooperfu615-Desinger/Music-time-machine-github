@@ -37,14 +37,14 @@ const App = () => {
     );
 
     return (
-        <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-purple-500 selection:text-white pb-12">
-            <header className="bg-slate-800/50 backdrop-blur-md sticky top-0 z-50 border-b border-slate-700">
+        <div className="min-h-screen bg-gradient-to-b from-neutral-900 to-black text-neutral-200 font-sans selection:bg-purple-500 selection:text-white pb-12">
+            <header className="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg shadow-lg shadow-purple-500/20">
                             <Music className="w-6 h-6 text-white" />
                         </div>
-                        <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 cursor-pointer" onClick={() => setViewMode('timeline')}>
+                        <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-200 to-neutral-500 cursor-pointer" onClick={() => setViewMode('timeline')}>
                             音樂時光機
                         </h1>
                     </div>
@@ -55,7 +55,7 @@ const App = () => {
                                 setViewMode(viewMode === 'timeline' ? 'list' : 'timeline');
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}
-                            className="flex items-center gap-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-full text-sm font-medium transition-all duration-300 hover:border-purple-500 group"
+                            className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 hover:bg-neutral-800 border border-white/10 rounded-full text-sm font-medium transition-all duration-300 hover:border-purple-500 group"
                         >
                             {viewMode === 'timeline' ? (
                                 <>
@@ -80,7 +80,7 @@ const App = () => {
                             <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">
                                 探索 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">{selectedYear}</span> 年
                             </h2>
-                            <p className="text-slate-400 text-lg">
+                            <p className="text-neutral-400 text-lg">
                                 那一年，全世界都在聽什麼？
                             </p>
                         </div>
@@ -88,7 +88,7 @@ const App = () => {
                         <div className="relative mb-12 group animate-fade-in-up">
                             <button
                                 onClick={() => scroll('left')}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-slate-800 rounded-full shadow-lg border border-slate-700 text-white hover:bg-slate-700 transition-colors hidden md:block opacity-0 group-hover:opacity-100"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-neutral-800 rounded-full shadow-lg border border-white/10 text-white hover:bg-neutral-700 transition-colors hidden md:block opacity-0 group-hover:opacity-100"
                             >
                                 <ChevronLeft size={24} />
                             </button>
@@ -106,7 +106,7 @@ const App = () => {
                         snap-center flex-shrink-0 px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 transform
                         ${selectedYear === year
                                                 ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white scale-110 shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/50'
-                                                : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}
+                                                : 'bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white'}
                         `}
                                     >
                                         {year}
@@ -116,7 +116,7 @@ const App = () => {
 
                             <button
                                 onClick={() => scroll('right')}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-slate-800 rounded-full shadow-lg border border-slate-700 text-white hover:bg-slate-700 transition-colors hidden md:block opacity-0 group-hover:opacity-100"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-neutral-800 rounded-full shadow-lg border border-white/10 text-white hover:bg-neutral-700 transition-colors hidden md:block opacity-0 group-hover:opacity-100"
                             >
                                 <ChevronRight size={24} />
                             </button>
@@ -140,13 +140,13 @@ const App = () => {
                                     placeholder="搜尋流派、關鍵字..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-5 py-3 rounded-full bg-slate-800 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12 transition-all shadow-lg"
+                                    className="w-full px-5 py-3 rounded-full bg-neutral-900 border border-neutral-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 pl-12 transition-all shadow-lg"
                                 />
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between mb-6 text-slate-400 text-sm px-2">
+                        <div className="flex items-center justify-between mb-6 text-neutral-500 text-sm px-2">
                             <span>共找到 {filteredGenres.length} 個類別</span>
                             <div className="flex items-center gap-2">
                                 <Filter size={14} />
@@ -160,7 +160,7 @@ const App = () => {
                                     <GenreCard key={index} item={item} />
                                 ))
                             ) : (
-                                <div className="col-span-full text-center py-20 text-slate-500">
+                                <div className="col-span-full text-center py-20 text-neutral-500">
                                     <p className="text-xl">找不到相關結果</p>
                                     <button onClick={() => setSearchTerm('')} className="mt-4 text-purple-400 hover:text-purple-300">
                                         清除搜尋
@@ -171,7 +171,7 @@ const App = () => {
                     </div>
                 )}
 
-                <div className="mt-12 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 flex gap-3 items-start text-sm text-slate-400">
+                <div className="mt-12 p-4 rounded-xl bg-neutral-900/30 border border-white/5 flex gap-3 items-start text-sm text-neutral-500">
                     <Info size={18} className="mt-0.5 flex-shrink-0 text-purple-400" />
                     <p>
                         {viewMode === 'timeline'
