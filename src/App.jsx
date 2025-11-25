@@ -181,6 +181,10 @@ const App = () => {
                     </p>
                 </div>
             </main>
+
+            <footer className="text-center py-8 text-neutral-500 text-sm font-medium tracking-wider opacity-60 hover:opacity-100 transition-opacity">
+                CREATED BY VIBE QUIRK LABS
+            </footer>
         </div>
     );
 };
