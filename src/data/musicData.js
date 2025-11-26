@@ -53,7 +53,7 @@ export const musicData = {
     ],
     1970: [
         {
-            genre: "硬式搖滾 / 重金屬",
+            genre: "硬式搖滾 / 重金屬 (Hard Rock / Heavy Metal)",
             desc: "受藍調搖滾影響，使用高增益電吉他與強烈鼓點，聲音更加厚重、吵雜，奠定了重金屬的基礎。",
             subGenres: ["Blues Rock", "Shock Rock", "Proto-Metal"],
             artists: ["Led Zeppelin", "Black Sabbath", "Deep Purple"]
@@ -111,7 +111,7 @@ export const musicData = {
             artists: ["Blondie", "Talking Heads", "The Police", "Devo"]
         },
         {
-            genre: "後迪斯可 / 流行舞曲",
+            genre: "後迪斯可 / 流行舞曲 (Post-Disco / Dance-Pop)",
             desc: "迪斯可式微後的演變，結合電子樂器與流行旋律，麥可傑克森的《Off the Wall》為代表。",
             subGenres: ["Dance-Pop", "Urban Contemporary", "Boogie"],
             artists: ["Michael Jackson", "Prince", "Diana Ross"]
@@ -209,7 +209,7 @@ export const musicData = {
     ],
     2000: [
         {
-            genre: "Nu Metal (新金屬)",
+            genre: "新金屬 (Nu Metal)",
             desc: "將重金屬與嘻哈、放克、電子音樂融合，特徵是降弦吉他與饒舌式的主唱。",
             subGenres: ["Rap Metal", "Funk Metal", "Industrial Metal"],
             artists: ["Linkin Park", "Limp Bizkit", "Korn", "Slipknot"]
@@ -247,7 +247,7 @@ export const musicData = {
             artists: ["Lil Jon", "T.I.", "Ludacris", "Soulja Boy"]
         },
         {
-            genre: "獨立搖滾復興",
+            genre: "獨立搖滾復興 (Indie Rock Revival)",
             desc: "車庫搖滾與後龐克的復興，強調低傳真 (Lo-fi) 美學與復古風格。",
             subGenres: ["Garage Rock Revival", "Post-Punk Revival", "Dance-Punk"],
             artists: ["The Strokes", "Arctic Monkeys", "The White Stripes", "The Killers"]
@@ -287,7 +287,7 @@ export const musicData = {
     ],
     2015: [
         {
-            genre: "Trap (陷阱音樂)",
+            genre: "陷阱音樂 (Trap)",
             desc: "源於亞特蘭大的嘻哈分支，特徵是 808 鼓機、Hi-hat 連擊與黑暗的氛圍。",
             subGenres: ["Drill", "Latin Trap", "Mumble Rap", "Emo Rap"],
             artists: ["Future", "Migos", "Travis Scott", "Cardi B"]
@@ -305,7 +305,7 @@ export const musicData = {
             artists: ["The Weeknd", "Ariana Grande", "Post Malone", "Halsey"]
         },
         {
-            genre: "現代爵士 / 跨界爵士",
+            genre: "現代爵士 / 跨界爵士 (Modern Jazz / Crossover)",
             desc: "新一代爵士樂手將 Hip-Hop、電子與 R&B 元素完美融合，讓爵士樂再次酷起來。",
             subGenres: ["Jazz-Rap", "UK Jazz Scene", "West Coast Get Down"],
             artists: ["Kamasi Washington", "Thundercat", "Robert Glasper", "Snarky Puppy"]
@@ -319,7 +319,7 @@ export const musicData = {
             artists: ["Clairo", "Billie Eilish", "Joji", "Rex Orange County"]
         },
         {
-            genre: "K-Pop (韓國流行音樂)",
+            genre: "韓國流行音樂 (K-Pop)",
             desc: "突破語言藩籬成為全球現象級文化，結合了極致的視覺、舞蹈與多元曲風。",
             subGenres: ["K-R&B", "K-Hip Hop", "Girl Crush"],
             artists: ["BTS", "BLACKPINK", "NewJeans", "TWICE"]
