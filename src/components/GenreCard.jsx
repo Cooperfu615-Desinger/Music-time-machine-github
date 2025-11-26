@@ -85,8 +85,16 @@ const GenreCard = ({ item }) => {
                 // 4. 合併連續底線並去除頭尾底線
                 const filename = rawName.replace(/_+/g, '_').replace(/^_|_$/g, '');
 
-                // 使用 Vite 的 BASE_URL 確保路徑正確
-                const audioPath = `${import.meta.env.BASE_URL}music/${filename}.mp3`;
+                // 使用相對路徑，這樣無論是在根目錄還是在子目錄 (GitHub Pages) 都能正確運作
+                // 前提是應用程式沒有使用 HTML5 History API 改變 URL 路徑層級
+                const audioPath = `music/${filename}.mp3`;
+
+                console.log('Debug Music Playback:', {
+                    genre: item.genre,
+                    match: match[1],
+                    filename: filename,
+                    audioPath: audioPath
+                });
 
                 const audio = new Audio(audioPath);
                 currentGlobalAudio = audio;
