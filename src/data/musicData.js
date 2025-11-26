@@ -339,7 +339,7 @@ export const musicData = {
     ],
     2025: [
         {
-            genre: "Hyperpop / Glitchcore (超流行/故障電子)",
+            genre: "超流行/故障電子 (Hyperpop / Glitchcore)",
             desc: "將流行樂極端化、誇張化，充滿失真、變調與高速度，反映網路原生世代的審美。",
             subGenres: ["Digicore", "Dariacore", "Cyberpop"],
             artists: ["Charli XCX", "100 gecs", "Sophie", "PinkPantheress"]
