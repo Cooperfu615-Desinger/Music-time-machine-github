@@ -195,7 +195,7 @@ export const musicData = {
             artists: ["Green Day", "The Offspring", "Blink-182", "Weezer"]
         },
         {
-            genre: "R&B / Hip Hop Soul (節奏藍調 / 嘻哈靈魂樂)",
+            genre: "節奏藍調 / 嘻哈靈魂樂 (R&B / Hip Hop Soul)",
             desc: "當代 R&B 與嘻哈節奏的完美結合，展現了極高水準的轉音技巧與製作水準。",
             subGenres: ["Neo-Soul", "New Jack Swing", "Urban Pop"],
             artists: ["Mariah Carey", "TLC", "Boyz II Men", "Mary J. Blige"]
@@ -235,13 +235,13 @@ export const musicData = {
     ],
     2005: [
         {
-            genre: "Emo / Pop Punk (情緒搖滾)",
+            genre: "情緒搖滾 (Emo / Pop Punk)",
             desc: "從地下龐克發展而來，歌詞極度情緒化與個人化，搭配標誌性的時尚風格。",
             subGenres: ["Screamo", "Neon Pop", "Midwest Emo"],
             artists: ["My Chemical Romance", "Fall Out Boy", "Panic! at the Disco", "Paramore"]
         },
         {
-            genre: "Crunk (南方嘻哈)",
+            genre: "南方嘻哈 (Crunk)",
             desc: "源於美國南部的嘻哈風格，特徵是高能量的合成器與吼叫式的饒舌。",
             subGenres: ["Snap Music", "Dirty South", "Crunkcore"],
             artists: ["Lil Jon", "T.I.", "Ludacris", "Soulja Boy"]
@@ -261,7 +261,7 @@ export const musicData = {
     ],
     2010: [
         {
-            genre: "EDM (電氣流行)",
+            genre: "電氣流行 (EDM)",
             desc: "電子舞曲全面攻佔流行榜，House、Dubstep 等元素被大量運用於流行歌曲中。",
             subGenres: ["Big Room House", "Dubstep", "Electro Pop", "Complextro"],
             artists: ["Avicii", "Calvin Harris", "Lady Gaga", "David Guetta"]
@@ -331,7 +331,7 @@ export const musicData = {
             artists: ["Dua Lipa", "The Weeknd", "Doja Cat", "Harry Styles"]
         },
         {
-            genre: "Phonk / Drift Phonk (馮克/甩尾馮克)",
+            genre: "馮克/甩尾馮克 (Phonk / Drift Phonk)",
             desc: "源於地下嘻哈，透過 TikTok 爆紅，特徵是高失真牛鈴聲與暗黑氛圍，常搭配賽車影片。",
             subGenres: ["Drift Phonk", "Wave", "Hard Phonk"],
             artists: ["Kordhell", "DVRST", "Freddie Dredd", "Hensonn"]
