@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Play, Users, Search, GitBranch, X } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Play, Pause, Users, Search, GitBranch, X } from 'lucide-react';
 
 const getArtistImage = (artistName) => {
     const encodedName = encodeURIComponent(artistName);
@@ -13,6 +13,49 @@ const getGoogleSearchUrl = (query, type = "artist") => {
 
 const GenreCard = ({ item }) => {
     const [showSubGenres, setShowSubGenres] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, []);
+
+    const togglePlay = (e) => {
+        e.stopPropagation();
+
+        if (isPlaying) {
+            if (audioRef.current) {
+                audioRef.current.pause();
+            }
+            setIsPlaying(false);
+        } else {
+            const match = item.genre.match(/\(([^)]+)\)/);
+            if (match && match[1]) {
+                const filename = match[1].toLowerCase().replace(/[\s/]+/g, '_');
+                const audioPath = `/music/${filename}.mp3`;
+
+                if (!audioRef.current || audioRef.current.src.indexOf(audioPath) === -1) {
+                    audioRef.current = new Audio(audioPath);
+                    audioRef.current.onended = () => setIsPlaying(false);
+                    audioRef.current.onerror = () => {
+                        console.log(`Audio not found: ${audioPath}`);
+                        setIsPlaying(false);
+                    };
+                }
+
+                audioRef.current.play().catch(error => {
+                    console.error("Playback failed:", error);
+                    setIsPlaying(false);
+                });
+                setIsPlaying(true);
+            }
+        }
+    };
 
     return (
         <div
@@ -23,9 +66,16 @@ const GenreCard = ({ item }) => {
             <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-start justify-between gap-2 mb-4">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-neutral-800/50 rounded-lg text-purple-400 group-hover:text-white group-hover:bg-purple-500 transition-colors duration-300 shrink-0">
-                            <Play size={20} fill="currentColor" />
-                        </div>
+                        <button
+                            onClick={togglePlay}
+                            className="p-2 bg-neutral-800/50 rounded-lg text-purple-400 group-hover:text-white group-hover:bg-purple-500 transition-colors duration-300 shrink-0 cursor-pointer"
+                        >
+                            {isPlaying ? (
+                                <Pause size={20} fill="currentColor" />
+                            ) : (
+                                <Play size={20} fill="currentColor" />
+                            )}
+                        </button>
                         <h3 className="text-xl font-bold text-white leading-tight">
                             {item.genre}
                         </h3>
