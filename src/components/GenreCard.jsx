@@ -11,47 +11,98 @@ const getGoogleSearchUrl = (query, type = "artist") => {
     return `https://www.google.com/search?q=${encodeURIComponent(query + suffix)}`;
 };
 
+let currentGlobalAudio = null;
+let activeSetIsPlaying = null;
+
 const GenreCard = ({ item }) => {
     const [showSubGenres, setShowSubGenres] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef(null);
 
+    // 當 item.genre 改變時，重置狀態
+    useEffect(() => {
+        if (isPlaying) {
+            setIsPlaying(false);
+            if (activeSetIsPlaying === setIsPlaying) {
+                activeSetIsPlaying = null;
+            }
+        }
+    }, [item.genre]);
+
+    // 元件卸載時的清理
     useEffect(() => {
         return () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current = null;
+            if (isPlaying && currentGlobalAudio) {
+                currentGlobalAudio.pause();
+                currentGlobalAudio = null;
+            }
+            if (activeSetIsPlaying === setIsPlaying) {
+                activeSetIsPlaying = null;
             }
         };
-    }, []);
+    }, [isPlaying]);
 
     const togglePlay = (e) => {
         e.stopPropagation();
 
         if (isPlaying) {
-            if (audioRef.current) {
-                audioRef.current.pause();
+            // 暫停當前播放
+            if (currentGlobalAudio) {
+                currentGlobalAudio.pause();
+                currentGlobalAudio = null;
             }
             setIsPlaying(false);
+            if (activeSetIsPlaying === setIsPlaying) {
+                activeSetIsPlaying = null;
+            }
         } else {
+            // 停止其他正在播放的音樂
+            if (currentGlobalAudio) {
+                currentGlobalAudio.pause();
+                currentGlobalAudio = null;
+            }
+            // 通知上一個播放的卡片更新 UI
+            if (activeSetIsPlaying && activeSetIsPlaying !== setIsPlaying) {
+                activeSetIsPlaying(false);
+            }
+
+            // 設定新的播放狀態
+            activeSetIsPlaying = setIsPlaying;
+
             const match = item.genre.match(/\(([^)]+)\)/);
             if (match && match[1]) {
                 const filename = match[1].toLowerCase().replace(/[\s/]+/g, '_');
-                const audioPath = `/music/${filename}.mp3`;
+                // 使用 Vite 的 BASE_URL 確保路徑正確
+                const audioPath = `${import.meta.env.BASE_URL}music/${filename}.mp3`;
 
-                if (!audioRef.current || audioRef.current.src.indexOf(audioPath) === -1) {
-                    audioRef.current = new Audio(audioPath);
-                    audioRef.current.onended = () => setIsPlaying(false);
-                    audioRef.current.onerror = () => {
-                        console.log(`Audio not found: ${audioPath}`);
-                        setIsPlaying(false);
-                    };
-                }
+                const audio = new Audio(audioPath);
+                currentGlobalAudio = audio;
 
-                audioRef.current.play().catch(error => {
+                audio.onended = () => {
+                    setIsPlaying(false);
+                    currentGlobalAudio = null;
+                    if (activeSetIsPlaying === setIsPlaying) {
+                        activeSetIsPlaying = null;
+                    }
+                };
+
+                audio.onerror = () => {
+                    console.log(`Audio not found: ${audioPath}`);
+                    setIsPlaying(false);
+                    currentGlobalAudio = null;
+                    if (activeSetIsPlaying === setIsPlaying) {
+                        activeSetIsPlaying = null;
+                    }
+                };
+
+                audio.play().catch(error => {
                     console.error("Playback failed:", error);
                     setIsPlaying(false);
+                    currentGlobalAudio = null;
+                    if (activeSetIsPlaying === setIsPlaying) {
+                        activeSetIsPlaying = null;
+                    }
                 });
+
                 setIsPlaying(true);
             }
         }
