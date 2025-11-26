@@ -195,13 +195,13 @@ export const musicData = {
             artists: ["Green Day", "The Offspring", "Blink-182", "Weezer"]
         },
         {
-            genre: "R&B / Hip Hop Soul",
+            genre: "R&B / Hip Hop Soul (節奏藍調 / 嘻哈靈魂樂)",
             desc: "當代 R&B 與嘻哈節奏的完美結合，展現了極高水準的轉音技巧與製作水準。",
             subGenres: ["Neo-Soul", "New Jack Swing", "Urban Pop"],
             artists: ["Mariah Carey", "TLC", "Boyz II Men", "Mary J. Blige"]
         },
         {
-            genre: "IDM / 智慧舞曲",
+            genre: "IDM (智慧舞曲)",
             desc: "Intelligent Dance Music，強調在家聆聽而非夜店跳舞的電子音樂，結構複雜且具實驗性。",
             subGenres: ["Glitch", "Braindance", "Ambient Techno"],
             artists: ["Aphex Twin", "Boards of Canada", "Autechre", "Squarepusher"]
@@ -241,7 +241,7 @@ export const musicData = {
             artists: ["My Chemical Romance", "Fall Out Boy", "Panic! at the Disco", "Paramore"]
         },
         {
-            genre: "Crunk / 南方嘻哈",
+            genre: "Crunk (南方嘻哈)",
             desc: "源於美國南部的嘻哈風格，特徵是高能量的合成器與吼叫式的饒舌。",
             subGenres: ["Snap Music", "Dirty South", "Crunkcore"],
             artists: ["Lil Jon", "T.I.", "Ludacris", "Soulja Boy"]
@@ -261,7 +261,7 @@ export const musicData = {
     ],
     2010: [
         {
-            genre: "EDM / 電氣流行",
+            genre: "EDM (電氣流行)",
             desc: "電子舞曲全面攻佔流行榜，House、Dubstep 等元素被大量運用於流行歌曲中。",
             subGenres: ["Big Room House", "Dubstep", "Electro Pop", "Complextro"],
             artists: ["Avicii", "Calvin Harris", "Lady Gaga", "David Guetta"]
@@ -331,7 +331,7 @@ export const musicData = {
             artists: ["Dua Lipa", "The Weeknd", "Doja Cat", "Harry Styles"]
         },
         {
-            genre: "Phonk / Drift Phonk",
+            genre: "Phonk / Drift Phonk (馮克/甩尾馮克)",
             desc: "源於地下嘻哈，透過 TikTok 爆紅，特徵是高失真牛鈴聲與暗黑氛圍，常搭配賽車影片。",
             subGenres: ["Drift Phonk", "Wave", "Hard Phonk"],
             artists: ["Kordhell", "DVRST", "Freddie Dredd", "Hensonn"]
@@ -339,7 +339,7 @@ export const musicData = {
     ],
     2025: [
         {
-            genre: "Hyperpop / Glitchcore",
+            genre: "Hyperpop / Glitchcore (超流行/故障電子)",
             desc: "將流行樂極端化、誇張化，充滿失真、變調與高速度，反映網路原生世代的審美。",
             subGenres: ["Digicore", "Dariacore", "Cyberpop"],
             artists: ["Charli XCX", "100 gecs", "Sophie", "PinkPantheress"]
