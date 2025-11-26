@@ -127,6 +127,12 @@ export const musicData = {
             desc: "爵士融合樂的商業化分支，強調旋律優美、輕鬆的氛圍，常作為背景音樂或電台播放。",
             subGenres: ["Quiet Storm", "Pop-Jazz", "Crossover Jazz"],
             artists: ["Kenny G", "George Benson", "Sade", "Grover Washington Jr."]
+        },
+        {
+            genre: "城市流行 (City Pop)",
+            desc: "源於日本泡沫經濟時期的都會音樂，融合放克、靈魂樂與軟搖滾。充滿霓虹燈般的度假氛圍，近年因網路傳播而在全球重新爆紅。",
+            subGenres: ["AOR", "Future Funk", "Shibuya-kei"],
+            artists: ["Tatsuro Yamashita", "Mariya Takeuchi", "Miki Matsubara", "Anri"]
         }
     ],
     1985: [
