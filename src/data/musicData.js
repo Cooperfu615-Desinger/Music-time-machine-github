@@ -328,6 +328,12 @@ export const musicData = {
             desc: "新一代爵士樂手將 Hip-Hop、電子與 R&B 元素完美融合，讓爵士樂再次酷起來。",
             subGenres: ["Jazz-Rap", "UK Jazz Scene", "West Coast Get Down"],
             artists: ["Kamasi Washington", "Thundercat", "Robert Glasper", "Snarky Puppy"]
+        },
+        {
+            genre: "放鬆饒舌 (Chill Rap)",
+            desc: "結合了嘻哈的節奏與爵士、靈魂樂的柔和旋律，節奏慵懶舒適。隨著串流平台的「情緒播放清單」興起，成為讀書與放鬆時的首選音樂。",
+            subGenres: ["Lo-fi Hip Hop", "Jazz Rap", "Cloud Rap"],
+            artists: ["Mac Miller", "J. Cole", "Joey Bada$$", "Nujabes"]
         }
     ],
     2020: [
