@@ -168,7 +168,7 @@ export const musicData = {
     ],
     1990: [
         {
-            genre: "Grunge (油漬搖滾)",
+            genre: "油漬搖滾 (Grunge)",
             musicFile: "grunge.mp3",
             desc: "源於西雅圖，融合龐克與重金屬，歌詞充滿焦慮與內省，終結了華麗金屬的統治。",
             subGenres: ["Post-Grunge", "Sludge Metal", "Riot Grrrl"],
