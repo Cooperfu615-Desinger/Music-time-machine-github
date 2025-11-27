@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, Pause, Users, Search, GitBranch, X } from 'lucide-react';
 
 const getArtistImage = (artistName) => {
@@ -11,122 +11,110 @@ const getGoogleSearchUrl = (query, type = "artist") => {
     return `https://www.google.com/search?q=${encodeURIComponent(query + suffix)}`;
 };
 
-let currentGlobalAudio = null;
-let activeSetIsPlaying = null;
-
 const GenreCard = ({ item }) => {
     const [showSubGenres, setShowSubGenres] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isAudioAvailable, setIsAudioAvailable] = useState(false);
 
-    // 當 item.genre 改變時，重置狀態
-    useEffect(() => {
-        if (isPlaying) {
-            setIsPlaying(false);
-            if (activeSetIsPlaying === setIsPlaying) {
-                activeSetIsPlaying = null;
-            }
+    // 計算音樂檔案路徑
+    const getMusicUrl = () => {
+        if (item.musicFile) {
+            return `${import.meta.env.BASE_URL}music/${item.musicFile}`;
         }
-    }, [item.genre]);
 
-    // 元件卸載時的清理
+        // 1. 提取英文 (Extract)
+        const match = item.genre.match(/\(([^)]+)\)/);
+        let englishName = match ? match[1] : item.genre;
+
+        // 2. 格式化 (Format)
+        const filename = englishName
+            .toLowerCase()
+            .replace(/&/g, 'n') // R&B -> rnb (User example: rnb_hip_hop_soul)
+            .replace(/[/\-_ ]+/g, '_') // Replace / - _ space with single underscore
+            .replace(/[^a-z0-9_]/g, '') // Remove non-alphanumeric except underscore
+            .replace(/^_+|_+$/g, '') // Trim underscores
+            + '.mp3';
+
+        return `${import.meta.env.BASE_URL}music/${filename}`;
+    };
+
+    const audioUrl = getMusicUrl();
+
+    // 檢查音訊檔案是否存在
     useEffect(() => {
-        return () => {
-            if (isPlaying && currentGlobalAudio) {
-                currentGlobalAudio.pause();
-                currentGlobalAudio = null;
-            }
-            if (activeSetIsPlaying === setIsPlaying) {
-                activeSetIsPlaying = null;
+        const checkAudioAvailability = async () => {
+            try {
+                const response = await fetch(audioUrl, { method: 'HEAD' });
+                if (response.ok) {
+                    setIsAudioAvailable(true);
+                } else {
+                    setIsAudioAvailable(false);
+                }
+            } catch (error) {
+                console.error(`Error checking audio file: ${audioUrl}`, error);
+                setIsAudioAvailable(false);
             }
         };
-    }, [isPlaying]);
+
+        checkAudioAvailability();
+    }, [audioUrl]);
+
+    // 監聽全域停止事件
+    useEffect(() => {
+        const handleStopAll = () => {
+            setIsPlaying(false);
+        };
+
+        window.addEventListener('music-stop-all', handleStopAll);
+
+        return () => {
+            window.removeEventListener('music-stop-all', handleStopAll);
+        };
+    }, []);
 
     const togglePlay = (e) => {
         e.stopPropagation();
 
+        if (!isAudioAvailable) return;
+
         if (isPlaying) {
-            // 暫停當前播放
-            if (currentGlobalAudio) {
-                currentGlobalAudio.pause();
-                currentGlobalAudio = null;
+            // 暫停目前播放
+            if (window.currentAudio) {
+                window.currentAudio.pause();
             }
             setIsPlaying(false);
-            if (activeSetIsPlaying === setIsPlaying) {
-                activeSetIsPlaying = null;
-            }
         } else {
-            // 停止其他正在播放的音樂
-            if (currentGlobalAudio) {
-                currentGlobalAudio.pause();
-                currentGlobalAudio = null;
-            }
-            // 通知上一個播放的卡片更新 UI
-            if (activeSetIsPlaying && activeSetIsPlaying !== setIsPlaying) {
-                activeSetIsPlaying(false);
+            // 步驟 A: 停止舊的
+            if (window.currentAudio) {
+                window.currentAudio.pause();
             }
 
-            // 設定新的播放狀態
-            activeSetIsPlaying = setIsPlaying;
+            // 步驟 B: 廣播停止所有卡片
+            window.dispatchEvent(new CustomEvent('music-stop-all'));
 
-            const match = item.genre.match(/\(([^)]+)\)/);
-            if (match && match[1]) {
-                let rawName = match[1].toLowerCase();
+            // 步驟 C: 播放新的
+            const audio = new Audio(audioUrl);
+            window.currentAudio = audio;
 
-                // 1. 特殊字元替換
-                rawName = rawName.replace(/&/g, 'n');
-                rawName = rawName.replace(/\+/g, 'plus');
+            audio.onended = () => {
+                setIsPlaying(false);
+                window.currentAudio = null;
+            };
 
-                // 2. 分隔符號處理 (斜線、連字號、空格 -> 底線)
-                rawName = rawName.replace(/[\/\-\s]+/g, '_');
+            audio.onerror = () => {
+                console.error(`Playback error for ${audioUrl}`);
+                setIsPlaying(false);
+                window.currentAudio = null;
+            };
 
-                // 3. 清理雜訊 (移除所有非英文字母、數字和底線)
-                rawName = rawName.replace(/[^a-z0-9_]/g, '');
+            audio.play().catch(error => {
+                console.error("Playback failed:", error);
+                setIsPlaying(false);
+                window.currentAudio = null;
+            });
 
-                // 4. 合併連續底線並去除頭尾底線
-                const filename = rawName.replace(/_+/g, '_').replace(/^_|_$/g, '');
-
-                // 使用相對路徑，這樣無論是在根目錄還是在子目錄 (GitHub Pages) 都能正確運作
-                // 前提是應用程式沒有使用 HTML5 History API 改變 URL 路徑層級
-                const audioPath = `music/${filename}.mp3`;
-
-                console.log('Debug Music Playback:', {
-                    genre: item.genre,
-                    match: match[1],
-                    filename: filename,
-                    audioPath: audioPath
-                });
-
-                const audio = new Audio(audioPath);
-                currentGlobalAudio = audio;
-
-                audio.onended = () => {
-                    setIsPlaying(false);
-                    currentGlobalAudio = null;
-                    if (activeSetIsPlaying === setIsPlaying) {
-                        activeSetIsPlaying = null;
-                    }
-                };
-
-                audio.onerror = () => {
-                    console.log(`Audio not found: ${audioPath}`);
-                    setIsPlaying(false);
-                    currentGlobalAudio = null;
-                    if (activeSetIsPlaying === setIsPlaying) {
-                        activeSetIsPlaying = null;
-                    }
-                };
-
-                audio.play().catch(error => {
-                    console.error("Playback failed:", error);
-                    setIsPlaying(false);
-                    currentGlobalAudio = null;
-                    if (activeSetIsPlaying === setIsPlaying) {
-                        activeSetIsPlaying = null;
-                    }
-                });
-
-                setIsPlaying(true);
-            }
+            // 必須在廣播之後設定自己的狀態，否則會被廣播關掉
+            setIsPlaying(true);
         }
     };
 
@@ -140,8 +128,13 @@ const GenreCard = ({ item }) => {
                 <div className="flex items-start justify-between gap-2 mb-4">
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={togglePlay}
-                            className="p-2 bg-neutral-800/50 rounded-lg text-purple-400 group-hover:text-white group-hover:bg-purple-500 transition-colors duration-300 shrink-0 cursor-pointer"
+                            onClick={isAudioAvailable ? togglePlay : undefined}
+                            disabled={!isAudioAvailable}
+                            className={`p-2 rounded-lg transition-colors duration-300 shrink-0 ${isAudioAvailable
+                                ? "bg-neutral-800/50 text-purple-400 group-hover:text-white group-hover:bg-purple-500 cursor-pointer"
+                                : "bg-slate-700 text-neutral-500 opacity-50 cursor-not-allowed"
+                                }`}
+                            title={!isAudioAvailable ? "暫無音樂" : isPlaying ? "暫停" : "播放"}
                         >
                             {isPlaying ? (
                                 <Pause size={20} fill="currentColor" />

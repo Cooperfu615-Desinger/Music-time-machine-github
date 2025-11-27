@@ -14,6 +14,7 @@ export const musicData = {
         },
         {
             genre: "民謠復興 (Folk Revival)",
+            musicFile: "folk_revival.mp3",
             desc: "年輕一代開始關注社會議題，傳統民謠以現代形式重新演繹，歌詞充滿詩意與政治意涵。",
             subGenres: ["Protest Songs", "Greenwich Village Scene", "Contemporary Folk"],
             artists: ["Joan Baez", "The Kingston Trio", "Peter, Paul and Mary"]
@@ -28,6 +29,7 @@ export const musicData = {
     1965: [
         {
             genre: "英倫入侵 (British Invasion)",
+            musicFile: "british_Invasion.mp3",
             desc: "英國搖滾樂團橫掃美國流行榜的文化現象，將搖滾樂推向了前所未有的藝術高度。",
             subGenres: ["Merseybeat", "Beat Music", "British Blues"],
             artists: ["The Beatles", "The Rolling Stones", "The Kinks", "The Who"]
@@ -40,6 +42,7 @@ export const musicData = {
         },
         {
             genre: "摩城之聲 (Motown Sound)",
+            musicFile: "motown_sound.mp3",
             desc: "底特律的摩城唱片創造了獨特的流行靈魂樂風格，具有強烈的節奏與管弦樂編排。",
             subGenres: ["Girl Group Sound", "Pop-Soul", "Northern Soul"],
             artists: ["The Supremes", "The Temptations", "Four Tops", "Smokey Robinson"]
@@ -106,6 +109,7 @@ export const musicData = {
     1980: [
         {
             genre: "新浪潮 (New Wave)",
+            musicFile: "new_wave.mp3",
             desc: "保留了龐克的活力但更加流行化，大量使用合成器，風格多變且具有實驗性。",
             subGenres: ["Synth-Pop", "New Romantic", "Dark Wave"],
             artists: ["Blondie", "Talking Heads", "The Police", "Devo"]
@@ -144,6 +148,7 @@ export const musicData = {
         },
         {
             genre: "華麗金屬 (Glam Metal)",
+            musicFile: "glam_metal.mp3",
             desc: "又稱髮型金屬，結合了重金屬的強度與流行樂的旋律，樂手造型誇張華麗。",
             subGenres: ["Hair Metal", "Pop Metal", "Sleaze Rock"],
             artists: ["Mötley Crüe", "Bon Jovi", "Guns N' Roses", "Poison"]
@@ -164,6 +169,7 @@ export const musicData = {
     1990: [
         {
             genre: "Grunge (油漬搖滾)",
+            musicFile: "grunge.mp3",
             desc: "源於西雅圖，融合龐克與重金屬，歌詞充滿焦慮與內省，終結了華麗金屬的統治。",
             subGenres: ["Post-Grunge", "Sludge Metal", "Riot Grrrl"],
             artists: ["Nirvana", "Pearl Jam", "Soundgarden", "Alice in Chains"]
@@ -182,6 +188,7 @@ export const musicData = {
         },
         {
             genre: "酸爵士 / 吹普霍普 (Acid Jazz / Trip-hop)",
+            musicFile: "acid_jazz.mp3",
             desc: "結合爵士取樣、放克節奏與嘻哈元素，源於英國 Bristol 的地下場景，氛圍迷幻慵懶。",
             subGenres: ["Bristol Sound", "Downtempo", "Nu-Jazz"],
             artists: ["Massive Attack", "Portishead", "Jamiroquai", "Erykah Badu"]
@@ -190,6 +197,7 @@ export const musicData = {
     1995: [
         {
             genre: "英倫搖滾 (Britpop)",
+            musicFile: "britpop.mp3",
             desc: "英國樂團對抗美國 Grunge 風潮的回應，強調英國文化認同，旋律優美且明亮。",
             subGenres: ["Post-Britpop", "Madchester", "Indie Pop"],
             artists: ["Oasis", "Blur", "Pulp", "Radiohead"]
@@ -216,12 +224,14 @@ export const musicData = {
     2000: [
         {
             genre: "新金屬 (Nu Metal)",
+            musicFile: "nu_metal.mp3",
             desc: "將重金屬與嘻哈、放克、電子音樂融合，特徵是降弦吉他與饒舌式的主唱。",
             subGenres: ["Rap Metal", "Funk Metal", "Industrial Metal"],
             artists: ["Linkin Park", "Limp Bizkit", "Korn", "Slipknot"]
         },
         {
             genre: "青少年流行 (Teen Pop)",
+            musicFile: "teen_pop.mp3",
             desc: "偶像團體與年輕獨唱歌手主導市場，精心包裝的形象與編舞是特徵。",
             subGenres: ["Bubblegum Pop", "Dance-Pop", "Europop"],
             artists: ["Britney Spears", "NSYNC", "Backstreet Boys", "Christina Aguilera"]
@@ -242,6 +252,7 @@ export const musicData = {
     2005: [
         {
             genre: "情緒搖滾 (Emo / Pop Punk)",
+            musicFile: "emo_punk.mp3",
             desc: "從地下龐克發展而來，歌詞極度情緒化與個人化，搭配標誌性的時尚風格。",
             subGenres: ["Screamo", "Neon Pop", "Midwest Emo"],
             artists: ["My Chemical Romance", "Fall Out Boy", "Panic! at the Disco", "Paramore"]
@@ -254,6 +265,7 @@ export const musicData = {
         },
         {
             genre: "獨立搖滾復興 (Indie Rock Revival)",
+            musicFile: "indie_rock.mp3",
             desc: "車庫搖滾與後龐克的復興，強調低傳真 (Lo-fi) 美學與復古風格。",
             subGenres: ["Garage Rock Revival", "Post-Punk Revival", "Dance-Punk"],
             artists: ["The Strokes", "Arctic Monkeys", "The White Stripes", "The Killers"]
@@ -306,6 +318,7 @@ export const musicData = {
         },
         {
             genre: "串流時代流行 (Streaming Pop)",
+            musicFile: "streaming_pop.mp3",
             desc: "為適應串流平台演算法，歌曲變短、副歌前置，曲風偏向 Mood Music。",
             subGenres: ["Chill Pop", "Sad Pop", "Alt-Pop"],
             artists: ["The Weeknd", "Ariana Grande", "Post Malone", "Halsey"]
@@ -320,12 +333,14 @@ export const musicData = {
     2020: [
         {
             genre: "臥室流行 (Bedroom Pop)",
+            musicFile: "bedroom_pop.mp3",
             desc: "DIY 精神的極致，年輕音樂人在家製作音樂，呈現 Lo-fi、夢幻且私密的質感。",
             subGenres: ["Lo-fi Hip Hop", "Dream Pop", "Slacker Rock"],
             artists: ["Clairo", "Billie Eilish", "Joji", "Rex Orange County"]
         },
         {
             genre: "韓國流行音樂 (K-Pop)",
+            musicFile: "k_pop.mp3",
             desc: "突破語言藩籬成為全球現象級文化，結合了極致的視覺、舞蹈與多元曲風。",
             subGenres: ["K-R&B", "K-Hip Hop", "Girl Crush"],
             artists: ["BTS", "BLACKPINK", "NewJeans", "TWICE"]
@@ -346,6 +361,7 @@ export const musicData = {
     2025: [
         {
             genre: "超流行/故障電子 (Hyperpop / Glitchcore)",
+            musicFile: "glitchcore.mp3",
             desc: "將流行樂極端化、誇張化，充滿失真、變調與高速度，反映網路原生世代的審美。",
             subGenres: ["Digicore", "Dariacore", "Cyberpop"],
             artists: ["Charli XCX", "100 gecs", "Sophie", "PinkPantheress"]
