@@ -1,0 +1,88 @@
+{
+  "1960": [
+    "rock-and-roll",
+    "soul-music",
+    "folk-revival",
+    "free-modal-jazz"
+  ],
+  "1965": [
+    "british-invasion",
+    "folk-rock",
+    "motown-sound",
+    "post-bop"
+  ],
+  "1970": [
+    "hard-rock-heavy-metal",
+    "progressive-rock",
+    "soft-rock",
+    "jazz-fusion"
+  ],
+  "1975": [
+    "disco",
+    "punk-rock",
+    "funk",
+    "reggae"
+  ],
+  "1980": [
+    "new-wave",
+    "post-disco-dance-pop",
+    "arena-rock",
+    "smooth-jazz",
+    "city-pop"
+  ],
+  "1985": [
+    "synth-pop",
+    "glam-metal",
+    "golden-age",
+    "alternative-rock"
+  ],
+  "1990": [
+    "grunge",
+    "gangsta-rap",
+    "house",
+    "acid-jazz-trip-hop"
+  ],
+  "1995": [
+    "britpop",
+    "pop-punk",
+    "rnb-hip-hop-soul",
+    "intelligent-dance-music"
+  ],
+  "2000": [
+    "nu-metal",
+    "teen-pop",
+    "contemporary-rnb",
+    "post-rock"
+  ],
+  "2005": [
+    "emo-pop-punk",
+    "crunk",
+    "indie-rock-revival",
+    "neo-soul"
+  ],
+  "2010": [
+    "edm",
+    "mainstream-hip-hop",
+    "indie-pop",
+    "vaporwave"
+  ],
+  "2015": [
+    "trap",
+    "tropical-house",
+    "streaming-pop",
+    "modern-jazz-crossover",
+    "chill-rap"
+  ],
+  "2020": [
+    "bedroom-pop",
+    "k-pop",
+    "nu-disco",
+    "phonk-drift-phonk"
+  ],
+  "2025": [
+    "hyperpop-glitchcore",
+    "latin-urban",
+    "ai",
+    "neo-psych"
+  ]
+}

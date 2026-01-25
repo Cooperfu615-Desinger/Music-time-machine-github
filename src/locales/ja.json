@@ -1,0 +1,25 @@
+{
+    "app_title": "音楽タイムマシン",
+    "explore_year": "探検",
+    "explore_desc": "その年、世界中で何が聴かれていたのか？",
+    "encyclopedia_title": "音楽ジャンル百科事典",
+    "search_placeholder": "ジャンル、キーワードを検索...",
+    "found_results": "{{count}} 件のカテゴリが見つかりました",
+    "sort_az": "並び替え：A-Z",
+    "no_results": "検索結果が見つかりません",
+    "clear_search": "検索をクリア",
+    "view_list": "百科事典リスト",
+    "view_timeline": "タイムラインに戻る",
+    "footer_text": "CREATED BY VIBE QUIRK LABS",
+    "info_timeline": "アーティストをクリックしてGoogle検索。カード右上のアイコンで派生ジャンルを表示、ジャンルをクリックして検索。",
+    "info_list": "これは音楽百科事典ビューで、全タイムラインの音楽ジャンルデータをまとめています。",
+    "info_suffix": "このデータベースには、メインストリームとアンダーグラウンド（ジャズ、アングラ音楽など）のカテゴリが含まれています。",
+    "card": {
+        "representative_artists": "代表的なアーティスト",
+        "no_audio": "音声なし",
+        "play": "再生",
+        "pause": "一時停止",
+        "sub_genres": "派生ジャンル",
+        "no_data": "データなし"
+    }
+}

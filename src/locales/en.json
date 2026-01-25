@@ -1,0 +1,25 @@
+{
+    "app_title": "Music Time Machine",
+    "explore_year": "Explore Year",
+    "explore_desc": "What was the world listening to back then?",
+    "encyclopedia_title": "Music Genre Encyclopedia",
+    "search_placeholder": "Search genres, keywords...",
+    "found_results": "Found {{count}} categories",
+    "sort_az": "Sort: A-Z",
+    "no_results": "No results found",
+    "clear_search": "Clear Search",
+    "view_list": "List View",
+    "view_timeline": "Timeline",
+    "footer_text": "CREATED BY VIBE QUIRK LABS",
+    "info_timeline": "Click on artists to search on Google. Click the icon at the top right of the card to view sub-genres.",
+    "info_list": "This is the encyclopedia view, summarizing all music genre data.",
+    "info_suffix": "This database contains both mainstream and underground genres.",
+    "card": {
+        "representative_artists": "Representative Artists",
+        "no_audio": "No Audio",
+        "play": "Play",
+        "pause": "Pause",
+        "sub_genres": "Sub Genres",
+        "no_data": "No Data"
+    }
+}

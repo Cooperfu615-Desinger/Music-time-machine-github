@@ -1,0 +1,25 @@
+{
+    "app_title": "音乐时光机",
+    "explore_year": "探索",
+    "explore_desc": "那一年，全世界都在听什么？",
+    "encyclopedia_title": "音乐流派百科",
+    "search_placeholder": "搜索流派、关键词...",
+    "found_results": "共找到 {{count}} 个类别",
+    "sort_az": "排序：A-Z",
+    "no_results": "找不到相关结果",
+    "clear_search": "清除搜索",
+    "view_list": "百科列表",
+    "view_timeline": "返回时间轴",
+    "footer_text": "CREATED BY VIBE QUIRK LABS",
+    "info_timeline": "点击艺人可前往 Google 搜索。点击卡片右上角的图标可查看衍生类别，点击类别亦可进行搜索。",
+    "info_list": "此为音乐百科视图，汇总了所有时间轴上的音乐流派资料。",
+    "info_suffix": "本数据库包含主流与非主流（如爵士、地下音乐）类别。",
+    "card": {
+        "representative_artists": "代表艺人",
+        "no_audio": "暂无音乐",
+        "play": "播放",
+        "pause": "暂停",
+        "sub_genres": "衍生类别",
+        "no_data": "无资料"
+    }
+}

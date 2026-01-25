@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Play, Pause, Users, Search, GitBranch, X } from 'lucide-react';
+import React, { useState, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Play, Pause, Users, Search, GitBranch, X, BookOpen } from 'lucide-react';
+import { NavigationContext } from '../App';
+import { useMusicPlayer } from '../hooks/useMusicPlayer';
 
 const getArtistImage = (artistName) => {
     const encodedName = encodeURIComponent(artistName);
@@ -11,130 +14,101 @@ const getGoogleSearchUrl = (query, type = "artist") => {
     return `https://www.google.com/search?q=${encodeURIComponent(query + suffix)}`;
 };
 
-const GenreCard = ({ item }) => {
+const GenreImagePlaceholder = ({ name, id }) => {
+    // Generate a deterministic gradient based on ID char sum
+    const sum = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const hues = [
+        'from-purple-600 to-blue-600',
+        'from-pink-600 to-rose-600',
+        'from-emerald-600 to-teal-600',
+        'from-orange-600 to-amber-600',
+        'from-indigo-600 to-violet-600',
+        'from-cyan-600 to-blue-600'
+    ];
+    const gradient = hues[sum % hues.length];
+
+    // Get initials (up to 2 chars)
+    const initials = name.substring(0, 2).toUpperCase();
+
+    return (
+        <div className={`w-full h-40 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+            <span className="text-4xl font-black text-white/20 select-none">
+                {initials}
+            </span>
+        </div>
+    );
+};
+
+const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) => {
+    const { t, i18n } = useTranslation();
+    const { jumpToGenre, openModal } = useContext(NavigationContext);
     const [showSubGenres, setShowSubGenres] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isAudioAvailable, setIsAudioAvailable] = useState(false);
 
-    // 計算音樂檔案路徑
+    // Music Logic
     const getMusicUrl = () => {
-        if (item.musicFile) {
-            return `${import.meta.env.BASE_URL}music/${item.musicFile}`;
+        if (item.audioPath) {
+            return `${import.meta.env.BASE_URL}${item.audioPath.substring(1)}`;
         }
-
-        // 1. 提取英文 (Extract)
-        const match = item.genre.match(/\(([^)]+)\)/);
-        let englishName = match ? match[1] : item.genre;
-
-        // 2. 格式化 (Format)
-        const filename = englishName
-            .toLowerCase()
-            .replace(/&/g, 'n') // R&B -> rnb (User example: rnb_hip_hop_soul)
-            .replace(/[/\-_ ]+/g, '_') // Replace / - _ space with single underscore
-            .replace(/[^a-z0-9_]/g, '') // Remove non-alphanumeric except underscore
-            .replace(/^_+|_+$/g, '') // Trim underscores
-            + '.mp3';
-
-        return `${import.meta.env.BASE_URL}music/${filename}`;
+        return null;
     };
+    const { isPlaying, toggle } = useMusicPlayer(getMusicUrl());
 
-    const audioUrl = getMusicUrl();
 
-    // 檢查音訊檔案是否存在
-    useEffect(() => {
-        const checkAudioAvailability = async () => {
-            try {
-                const response = await fetch(audioUrl, { method: 'HEAD' });
-                if (response.ok) {
-                    setIsAudioAvailable(true);
-                } else {
-                    setIsAudioAvailable(false);
-                }
-            } catch (error) {
-                console.error(`Error checking audio file: ${audioUrl}`, error);
-                setIsAudioAvailable(false);
-            }
-        };
+    // Get localized contents
+    const name = item.name[i18n.language] || item.name['zh-TW'];
+    const desc = item.desc[i18n.language] || item.desc['zh-TW'];
 
-        checkAudioAvailability();
-    }, [audioUrl]);
-
-    // 監聽全域停止事件
-    useEffect(() => {
-        const handleStopAll = () => {
-            setIsPlaying(false);
-        };
-
-        window.addEventListener('music-stop-all', handleStopAll);
-
-        return () => {
-            window.removeEventListener('music-stop-all', handleStopAll);
-        };
-    }, []);
-
-    const togglePlay = (e) => {
-        e.stopPropagation();
-
-        if (!isAudioAvailable) return;
-
-        if (isPlaying) {
-            // 暫停目前播放
-            if (window.currentAudio) {
-                window.currentAudio.pause();
-            }
-            setIsPlaying(false);
-        } else {
-            // 步驟 A: 停止舊的
-            if (window.currentAudio) {
-                window.currentAudio.pause();
-            }
-
-            // 步驟 B: 廣播停止所有卡片
-            window.dispatchEvent(new CustomEvent('music-stop-all'));
-
-            // 步驟 C: 播放新的
-            const audio = new Audio(audioUrl);
-            window.currentAudio = audio;
-
-            audio.onended = () => {
-                setIsPlaying(false);
-                window.currentAudio = null;
-            };
-
-            audio.onerror = () => {
-                console.error(`Playback error for ${audioUrl}`);
-                setIsPlaying(false);
-                window.currentAudio = null;
-            };
-
-            audio.play().catch(error => {
-                console.error("Playback failed:", error);
-                setIsPlaying(false);
-                window.currentAudio = null;
-            });
-
-            // 必須在廣播之後設定自己的狀態，否則會被廣播關掉
-            setIsPlaying(true);
-        }
+    // Handlers
+    const handleSubGenreClick = (e, sub) => {
+        e.preventDefault();
+        jumpToGenre(sub);
     };
 
     return (
         <div
-            className="bg-neutral-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 group flex flex-col relative h-full"
+            id={`genre-card-${item.id}`}
+            className={`
+                bg-neutral-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 
+                hover:border-purple-500/50 transition-all duration-300 
+                hover:shadow-2xl hover:shadow-purple-500/10 group flex flex-col relative h-full
+                ${isHighlighted ? 'animate-highlight' : ''}
+            `}
         >
-            <div className="h-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+            <div className="h-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 absolute top-0 left-0 right-0 z-10"></div>
 
-            <div className="p-6 flex-1 flex flex-col">
+            {/* Image Section */}
+            <div className="w-full h-40 overflow-hidden relative bg-neutral-900">
+                {item.imagePath ? (
+                    <img
+                        src={`${import.meta.env.BASE_URL}${item.imagePath.substring(1)}`}
+                        alt={name}
+                        loading="lazy"
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                        }}
+                    />
+                ) : null}
+                <div style={{ display: item.imagePath ? 'none' : 'flex' }} className="w-full h-full">
+                    <GenreImagePlaceholder name={name} id={item.id} />
+                </div>
+
+                {/* Overlay Text Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent"></div>
+            </div>
+
+            <div className="p-6 flex-1 flex flex-col -mt-10 relative z-0">
                 <div className="flex items-start justify-between gap-2 mb-4">
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={isAudioAvailable ? togglePlay : undefined}
+                            onClick={isAudioAvailable ? toggle : undefined}
                             disabled={!isAudioAvailable}
                             className={`p-2 rounded-lg transition-colors duration-300 shrink-0 ${isAudioAvailable
                                 ? "bg-neutral-800/50 text-purple-400 group-hover:text-white group-hover:bg-purple-500 cursor-pointer"
                                 : "bg-slate-700 text-neutral-500 opacity-50 cursor-not-allowed"
                                 }`}
-                            title={!isAudioAvailable ? "暫無音樂" : isPlaying ? "暫停" : "播放"}
+                            title={!isAudioAvailable ? t('card.no_audio') : isPlaying ? t('card.pause') : t('card.play')}
                         >
                             {isPlaying ? (
                                 <Pause size={20} fill="currentColor" />
@@ -143,21 +117,28 @@ const GenreCard = ({ item }) => {
                             )}
                         </button>
                         <h3 className="text-xl font-bold text-white leading-tight">
-                            {item.genre}
+                            {name}
                         </h3>
                     </div>
                 </div>
 
                 <div className="relative flex-1">
                     <div className={`transition-opacity duration-300 ${showSubGenres ? 'opacity-10 invisible' : 'opacity-100 visible'}`}>
-                        <p className="text-neutral-400 text-sm leading-relaxed mb-6">
-                            {item.desc}
+                        <p className="text-neutral-400 text-sm leading-relaxed mb-6 line-clamp-2">
+                            {desc}
                         </p>
+                        <button
+                            onClick={() => openModal(item)}
+                            className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 mb-4 -mt-2 group/read"
+                        >
+                            <BookOpen size={12} />
+                            {t('read_more') || "Read More..."}  {/* Fallback if key missing */}
+                        </button>
 
                         <div className="mt-auto">
                             <div className="flex items-center gap-2 mb-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                 <Users size={14} />
-                                <span>代表藝人</span>
+                                <span>{t('card.representative_artists')}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
                                 {item.artists.map((artist, idx) => (
@@ -197,23 +178,22 @@ const GenreCard = ({ item }) => {
                     >
                         <h4 className="text-lg font-bold text-purple-400 mb-4 flex items-center gap-2">
                             <GitBranch size={20} />
-                            衍生類別
+                            {t('card.sub_genres')}
                         </h4>
                         <div className="flex flex-wrap justify-center gap-2">
-                            {item.subGenres && item.subGenres.map((sub, idx) => (
+                            {item.subGenreIds && item.subGenreIds.map((sub, idx) => (
                                 <a
                                     key={idx}
-                                    href={getGoogleSearchUrl(sub, "genre")}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="#"
+                                    onClick={(e) => handleSubGenreClick(e, sub)}
                                     className="px-3 py-1.5 bg-purple-500/20 text-purple-200 rounded-full text-sm border border-purple-500/30 hover:bg-purple-500 hover:text-white hover:border-purple-400 transition-all cursor-pointer flex items-center gap-1 group/chip"
-                                    title={`在 Google 搜尋 ${sub}`}
+                                    title={`跳轉至 ${sub}`}
                                 >
                                     {sub}
-                                    <Search size={10} className="opacity-0 group-hover/chip:opacity-100 transition-opacity" />
+                                    {/* <Search size={10} className="opacity-0 group-hover/chip:opacity-100 transition-opacity" /> */}
                                 </a>
                             ))}
-                            {!item.subGenres && <span className="text-neutral-500 text-sm">無資料</span>}
+                            {!item.subGenreIds && <span className="text-neutral-500 text-sm">{t('card.no_data')}</span>}
                         </div>
                         <button
                             onClick={() => setShowSubGenres(false)}
@@ -224,11 +204,11 @@ const GenreCard = ({ item }) => {
                     </div>
                 </div>
 
-                {!showSubGenres && item.subGenres && (
+                {!showSubGenres && item.subGenreIds && (
                     <button
                         onClick={() => setShowSubGenres(true)}
                         className="absolute top-6 right-6 p-2 text-neutral-500 hover:text-purple-400 hover:bg-purple-400/10 rounded-full transition-all"
-                        title="查看衍生類別"
+                        title={t('card.sub_genres')}
                     >
                         <GitBranch size={20} />
                     </button>
