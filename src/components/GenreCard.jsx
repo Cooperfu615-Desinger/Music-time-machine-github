@@ -61,7 +61,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
     // Handlers
     const handleSubGenreClick = (e, sub) => {
         e.preventDefault();
-        jumpToGenre(sub);
+        jumpToGenre(sub.trim());
     };
 
     return (

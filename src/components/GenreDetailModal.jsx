@@ -26,8 +26,8 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
     if (!isOpen || !genre) return null;
 
-    const name = genre.name[i18n.language] || genre.name['zh-TW'];
-    const desc = genre.desc[i18n.language] || genre.desc['zh-TW'];
+    const name = genre?.name?.[i18n.language] || genre?.name?.['zh-TW'] || "Unknown Genre";
+    const desc = genre?.desc?.[i18n.language] || genre?.desc?.['zh-TW'] || "No description available.";
 
     // Prevent scrolling on body when modal is open
     React.useEffect(() => {
@@ -55,7 +55,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
                 {/* Hero Image */}
                 <div className="w-full h-48 sm:h-64 relative bg-neutral-900 flex-shrink-0">
-                    {genre.imagePath ? (
+                    {genre?.imagePath ? (
                         <>
                             <img
                                 src={`${import.meta.env.BASE_URL}${genre.imagePath.substring(1)}`}
@@ -67,11 +67,11 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                                 }}
                             />
                             <div style={{ display: 'none' }} className="w-full h-full">
-                                <GenreImagePlaceholder name={name} id={genre.id} />
+                                <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} />
                             </div>
                         </>
                     ) : (
-                        <GenreImagePlaceholder name={name} id={genre.id} />
+                        <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-black/30"></div>
 
@@ -84,7 +84,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
                     <div className="absolute bottom-4 left-6 z-10">
                         <span className="text-xs font-mono text-purple-300 bg-purple-500/20 px-2 py-1 rounded backdrop-blur-sm border border-purple-500/20 mb-2 inline-block">
-                            ID: {genre.id}
+                            ID: {genre?.id || "N/A"}
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-black text-white leading-none shadow-black drop-shadow-lg">{name}</h2>
                     </div>
@@ -101,7 +101,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                     </div>
 
                     {/* Artists */}
-                    {genre.artists && genre.artists.length > 0 && (
+                    {genre?.artists && genre.artists.length > 0 && (
                         <div className="mb-8">
                             <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <User size={16} />

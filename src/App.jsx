@@ -79,7 +79,12 @@ const App = () => {
 
     // Navigation Logic
     const jumpToGenre = (genreId) => {
-        const id = genreId.toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
+        const cleanInput = genreId ? genreId.trim() : "";
+        if (!cleanInput) return;
+
+        // Normalize to strictly match ID format (lowercase, spaces to dashes, remove specials)
+        // e.g. "Post-Disco / Dance-Pop" -> "post-disco-dance-pop"
+        const id = cleanInput.toLowerCase().replace(/ \/ /g, '-').replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
 
         let foundYear = null;
         for (const year of years) {
@@ -110,8 +115,9 @@ const App = () => {
                 setSelectedGenreForModal(genre);
                 setIsModalOpen(true);
             } else {
-                console.warn(`Genre not found: ${id}`);
-                window.open(`https://www.google.com/search?q=${genreId} music genre`, '_blank');
+                console.warn(`Genre not found: ${id} (Original: ${cleanInput}) - Fallback to Search`);
+                // STRICT FALLBACK: Do NOT open modal, just search
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(cleanInput + " music genre")}`, '_blank');
             }
         }
     };
