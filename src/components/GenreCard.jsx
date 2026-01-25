@@ -43,6 +43,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
     const { t, i18n } = useTranslation();
     const { jumpToGenre, openModal } = useContext(NavigationContext);
     const [showSubGenres, setShowSubGenres] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
     // Music Logic
     const getMusicUrl = () => {
@@ -78,21 +79,22 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
 
             {/* Image Section */}
             <div className="w-full h-40 overflow-hidden relative bg-neutral-900">
-                {item.imagePath ? (
+                {item.imagePath && !imageError ? (
                     <img
                         src={`${import.meta.env.BASE_URL}${item.imagePath.substring(1)}`}
                         alt={name}
                         loading="lazy"
                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                        }}
+                        onError={() => setImageError(true)}
                     />
                 ) : null}
-                <div style={{ display: item.imagePath ? 'none' : 'flex' }} className="w-full h-full">
-                    <GenreImagePlaceholder name={name} id={item.id} />
-                </div>
+
+                {/* Fallback Placeholder if image missing or error */}
+                {(!item.imagePath || imageError) && (
+                    <div className="w-full h-full flex flex-col items-center justify-center">
+                        <GenreImagePlaceholder name={name} id={item.id} />
+                    </div>
+                )}
 
                 {/* Overlay Text Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent"></div>

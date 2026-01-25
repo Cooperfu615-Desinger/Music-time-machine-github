@@ -24,18 +24,20 @@ const GenreImagePlaceholder = ({ name, id }) => {
 const GenreDetailModal = ({ genre, isOpen, onClose }) => {
     const { t, i18n } = useTranslation();
 
+    // Prevent scrolling on body when modal is open
+    React.useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     if (!isOpen || !genre) return null;
 
     const name = genre?.name?.[i18n.language] || genre?.name?.['zh-TW'] || "Unknown Genre";
     const desc = genre?.desc?.[i18n.language] || genre?.desc?.['zh-TW'] || "No description available.";
-
-    // Prevent scrolling on body when modal is open
-    React.useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, []);
 
     const getGoogleSearchUrl = (query, type = "artist") => {
         const suffix = type === "genre" ? " music genre" : " music artist";

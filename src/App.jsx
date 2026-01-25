@@ -153,8 +153,13 @@ const App = () => {
     });
 
 
+    const navigationContextValue = React.useMemo(() => ({
+        jumpToGenre,
+        openModal: (genre) => { setSelectedGenreForModal(genre); setIsModalOpen(true); }
+    }), [jumpToGenre]);
+
     return (
-        <NavigationContext.Provider value={{ jumpToGenre, openModal: (genre) => { setSelectedGenreForModal(genre); setIsModalOpen(true); } }}>
+        <NavigationContext.Provider value={navigationContextValue}>
             <div className="min-h-screen bg-gradient-to-b from-neutral-900 to-black text-neutral-200 font-sans selection:bg-purple-500 selection:text-white pb-12">
                 <header className="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-white/10">
                     <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
