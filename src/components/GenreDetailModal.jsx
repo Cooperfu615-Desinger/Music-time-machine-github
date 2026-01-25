@@ -5,7 +5,7 @@ import { X, ExternalLink, Search, User } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 // Placeholder Component (Duplicated from GenreCard for self-containment, or could be exported)
-const GenreImagePlaceholder = ({ name, id }) => {
+const GenreImagePlaceholder = ({ name, id, showText = true }) => {
     const sum = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const hues = [
         'from-purple-600 to-blue-600', 'from-pink-600 to-rose-600', 'from-emerald-600 to-teal-600',
@@ -16,7 +16,7 @@ const GenreImagePlaceholder = ({ name, id }) => {
 
     return (
         <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-            <span className="text-6xl font-black text-white/20 select-none">{initials}</span>
+            {showText && <span className="text-6xl font-black text-white/20 select-none">{initials}</span>}
         </div>
     );
 };
@@ -62,43 +62,47 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
                 {/* Hero Image */}
                 <div className="w-full h-48 sm:h-64 relative bg-neutral-900 flex-shrink-0 overflow-hidden">
-                    {/* Watermark Typography */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0 overflow-hidden">
-                        <span className="text-[8rem] font-black text-white/[0.08] leading-none whitespace-nowrap uppercase tracking-tighter">
-                            {name}
-                        </span>
-                    </div>
 
+                    {/* 1. Image / Placeholder Layer (z-0 default) */}
                     {genre?.imagePath ? (
                         <>
                             <img
                                 src={`${import.meta.env.BASE_URL}${genre.imagePath.substring(1)}`}
                                 alt={name}
-                                className="w-full h-full object-cover relative z-10"
+                                className="w-full h-full object-cover relative z-0"
                                 onError={(e) => {
                                     e.target.style.display = 'none';
                                     e.target.nextSibling.style.display = 'flex';
                                 }}
                             />
-                            <div style={{ display: 'none' }} className="w-full h-full relative z-10">
-                                <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} />
+                            <div style={{ display: 'none' }} className="w-full h-full relative z-0">
+                                <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} showText={false} />
                             </div>
                         </>
                     ) : (
-                        <div className="relative z-10 w-full h-full">
-                            <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} />
+                        <div className="relative w-full h-full z-0">
+                            <GenreImagePlaceholder name={name} id={genre?.id || 'unknown'} showText={false} />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-black/30 z-20"></div>
+
+                    {/* 2. Gradient Overlay (z-0: Background layer to dim image) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-black/30 z-0"></div>
+
+                    {/* 3. Watermark Typography (z-5: On top of overlay, Middle layer) */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-[5] overflow-hidden">
+                        <span className="text-[150px] font-black text-white opacity-10 leading-none whitespace-nowrap uppercase tracking-tighter">
+                            {name}
+                        </span>
+                    </div>
 
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors z-30 backdrop-blur-sm"
+                        className="absolute top-4 right-4 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors z-10 backdrop-blur-sm"
                     >
                         <X size={24} />
                     </button>
 
-                    <div className="absolute bottom-4 left-6 z-30">
+                    <div className="absolute bottom-4 left-6 z-10">
                         {/* ID Badge Removed */}
                         <h2 className="text-3xl sm:text-4xl font-black text-white leading-none shadow-black drop-shadow-lg">{name}</h2>
                     </div>
@@ -128,7 +132,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                                         href={getGoogleSearchUrl(artist, "artist")}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 p-2 rounded-lg bg-neutral-800 border border-white/5 hover:bg-neutral-700 hover:border-purple-500/50 transition-all duration-200 group"
+                                        className="flex items-center gap-3 p-2 rounded-lg bg-neutral-800 border border-white/5 hover:bg-neutral-700 hover:border-purple-500/50 transition-all duration-200 group"
                                     >
                                         <img
                                             src={getArtistImage(artist)}
