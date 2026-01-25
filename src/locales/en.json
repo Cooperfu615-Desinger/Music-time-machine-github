@@ -16,10 +16,11 @@
     "info_suffix": "This database contains both mainstream and underground genres.",
     "card": {
         "representative_artists": "Representative Artists",
-        "no_audio": "No Audio",
+        "no_audio": "No Audio Preview",
         "play": "Play",
         "pause": "Pause",
         "sub_genres": "Sub Genres",
-        "no_data": "No Data"
-    }
+        "no_data": "No Sub Genres"
+    },
+    "read_more": "More"
 }

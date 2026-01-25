@@ -16,10 +16,9 @@
     "info_suffix": "このデータベースには、メインストリームとアンダーグラウンド（ジャズ、アングラ音楽など）のカテゴリが含まれています。",
     "card": {
         "representative_artists": "代表的なアーティスト",
-        "no_audio": "音声なし",
-        "play": "再生",
-        "pause": "一時停止",
-        "sub_genres": "派生ジャンル",
-        "no_data": "データなし"
-    }
+        "no_audio": "プレビューなし",
+        "sub_genres": "サブジャンル",
+        "no_data": "サブジャンルなし"
+    },
+    "read_more": "詳細"
 }

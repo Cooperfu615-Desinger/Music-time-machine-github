@@ -16,10 +16,11 @@
     "info_suffix": "本数据库包含主流与非主流（如爵士、地下音乐）类别。",
     "card": {
         "representative_artists": "代表艺人",
-        "no_audio": "暂无音乐",
+        "no_audio": "暂无试听",
         "play": "播放",
         "pause": "暂停",
-        "sub_genres": "衍生类别",
-        "no_data": "无资料"
-    }
+        "sub_genres": "衍生流派",
+        "no_data": "无衍生流派"
+    },
+    "read_more": "更多"
 }
