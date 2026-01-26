@@ -90,7 +90,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
                     {/* 3. Watermark Typography (z-5: On top of overlay, Middle layer) */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-[5] overflow-hidden">
-                        <span className="text-[150px] font-black text-white opacity-10 leading-none whitespace-nowrap uppercase tracking-tighter">
+                        <span className="text-[120px] sm:text-[150px] font-black text-white opacity-[0.08] leading-none whitespace-nowrap uppercase tracking-tighter">
                             {name}
                         </span>
                     </div>
@@ -103,7 +103,6 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                     </button>
 
                     <div className="absolute bottom-4 left-6 z-10">
-                        {/* ID Badge Removed */}
                         <h2 className="text-3xl sm:text-4xl font-black text-white leading-none shadow-black drop-shadow-lg">{name}</h2>
                     </div>
                 </div>

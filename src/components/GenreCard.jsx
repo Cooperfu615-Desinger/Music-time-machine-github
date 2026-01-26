@@ -31,9 +31,10 @@ const GenreImagePlaceholder = ({ name, id }) => {
     const initials = name.substring(0, 2).toUpperCase();
 
     return (
-        <div className={`w-full h-40 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-            <span className="text-4xl font-black text-white/20 select-none">
-                {initials}
+        <div className={`w-full h-40 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden relative`}>
+            {/* Background Watermark */}
+            <span className="absolute inset-0 flex items-center justify-center text-[5rem] font-black text-white opacity-[0.06] select-none whitespace-nowrap uppercase leading-none pointer-events-none z-0">
+                {name}
             </span>
         </div>
     );
@@ -118,7 +119,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                                 <Play size={20} fill="currentColor" />
                             )}
                         </button>
-                        <h3 className="text-xl font-bold text-white leading-tight">
+                        <h3 className="text-xl font-black text-white leading-tight">
                             {name}
                         </h3>
                     </div>
@@ -134,7 +135,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                             className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 mb-4 -mt-2 group/read"
                         >
                             <BookOpen size={12} />
-                            {t('read_more') || "Read More..."}  {/* Fallback if key missing */}
+                            {t('more') || "More..."}
                         </button>
 
                         <div className="mt-auto">
@@ -149,7 +150,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                                         href={getGoogleSearchUrl(artist, "artist")}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 p-2 rounded-lg bg-black/40 border border-white/5 hover:bg-neutral-800 hover:border-purple-400/50 transition-all duration-200 group/artist cursor-pointer"
+                                        className="flex items-center gap-3 p-2 rounded-lg bg-black/40 border border-white/5 hover:bg-neutral-800 hover:border-purple-400/50 transition-all duration-200 group/artist cursor-pointer"
                                         title={`在 Google 搜尋 ${artist}`}
                                     >
                                         <img
