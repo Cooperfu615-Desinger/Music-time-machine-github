@@ -22,5 +22,7 @@
         "sub_genres": "衍生流派",
         "no_data": "无衍生流派"
     },
-    "more": "更多"
+    "more": "更多",
+    "google_search": "Google 搜索",
+    "search_on_google": "在 Google 搜索 {{name}}"
 }

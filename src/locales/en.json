@@ -22,5 +22,7 @@
         "sub_genres": "Sub Genres",
         "no_data": "No Sub Genres"
     },
-    "more": "More"
+    "more": "More",
+    "google_search": "Google Search",
+    "search_on_google": "Search {{name}} on Google"
 }

@@ -162,7 +162,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium"
                     >
-                        Google Search <ExternalLink size={16} />
+                        {t('google_search')} <ExternalLink size={16} />
                     </a>
                 </div>
             </div>

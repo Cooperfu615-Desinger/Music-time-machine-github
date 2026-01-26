@@ -20,5 +20,7 @@
         "sub_genres": "サブジャンル",
         "no_data": "サブジャンルなし"
     },
-    "more": "詳細"
+    "more": "詳細",
+    "google_search": "Google 検索",
+    "search_on_google": "Google で {{name}} を検索"
 }

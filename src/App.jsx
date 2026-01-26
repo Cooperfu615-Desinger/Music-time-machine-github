@@ -269,7 +269,7 @@ const App = () => {
                         <div className="animate-fade-in">
                             <div className="text-center mb-10">
                                 <h2 className="text-3xl md:text-4xl font-black mb-6 text-white">
-                                    音樂流派百科
+                                    {t('encyclopedia_title')}
                                 </h2>
                                 <div className="max-w-xl mx-auto relative">
                                     <input

@@ -151,7 +151,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center gap-3 p-2 rounded-lg bg-black/40 border border-white/5 hover:bg-neutral-800 hover:border-purple-400/50 transition-all duration-200 group/artist cursor-pointer"
-                                        title={`在 Google 搜尋 ${artist}`}
+                                        title={t('search_on_google', { name: artist })}
                                     >
                                         <img
                                             src={getArtistImage(artist)}
