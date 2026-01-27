@@ -3,6 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, ExternalLink, Search, User } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { useMusicPlayer } from '../hooks/useMusicPlayer';
+import MusicBars from './MusicBars';
+import { Play, Pause } from 'lucide-react';
 
 // Placeholder Component (Duplicated from GenreCard for self-containment, or could be exported)
 const GenreImagePlaceholder = ({ name, id, showText = true }) => {
@@ -28,6 +31,29 @@ const getArtistImage = (artistName) => {
 
 const GenreDetailModal = ({ genre, isOpen, onClose }) => {
     const { t, i18n } = useTranslation();
+    const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+
+    // Parallax logic
+    const handleMouseMove = (e) => {
+        if (!isOpen) return;
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - left) / width - 0.5;
+        const y = (e.clientY - top) / height - 0.5;
+        setOffset({ x: x * 20, y: y * 20 }); // Stronger effect for modal
+    };
+
+    const handleMouseLeave = () => {
+        setOffset({ x: 0, y: 0 });
+    };
+
+    // Music Logic
+    const getMusicUrl = () => {
+        if (genre?.audioPath) {
+            return `${import.meta.env.BASE_URL}${genre.audioPath.substring(1)}`;
+        }
+        return null;
+    };
+    const { isPlaying, toggle } = useMusicPlayer(getMusicUrl());
 
     // Prevent scrolling on body when modal is open
     React.useEffect(() => {
@@ -61,7 +87,11 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
             <div className="relative bg-[#1a1a1a] border border-white/10 w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scale-in">
 
                 {/* Hero Image */}
-                <div className="w-full h-48 sm:h-64 relative bg-neutral-900 flex-shrink-0 overflow-hidden">
+                <div
+                    className="w-full h-48 sm:h-64 relative bg-neutral-900 flex-shrink-0 overflow-hidden"
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                >
 
                     {/* 1. Image / Placeholder Layer (z-0 default) */}
                     {genre?.imagePath ? (
@@ -90,7 +120,10 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
 
                     {/* 3. Watermark Typography (z-5: On top of overlay, Middle layer) */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-[5] overflow-hidden">
-                        <span className="text-[120px] sm:text-[150px] font-black text-white opacity-[0.08] leading-none whitespace-nowrap uppercase tracking-tighter">
+                        <span
+                            className="text-[120px] sm:text-[150px] font-black text-white opacity-[0.08] leading-none whitespace-nowrap uppercase tracking-tighter inline-block transition-transform duration-100 ease-out"
+                            style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+                        >
                             {name}
                         </span>
                     </div>
@@ -102,8 +135,19 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
                         <X size={24} />
                     </button>
 
-                    <div className="absolute bottom-4 left-6 z-10">
+                    <div className="absolute bottom-4 left-6 z-10 flex items-center gap-4">
                         <h2 className="text-3xl sm:text-4xl font-black text-white leading-none shadow-black drop-shadow-lg">{name}</h2>
+                        {genre?.audioPath && (
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={toggle}
+                                    className="p-2 rounded-full bg-white/10 hover:bg-purple-500 text-white backdrop-blur-md transition-all border border-white/20"
+                                >
+                                    {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+                                </button>
+                                {isPlaying && <MusicBars isPlaying={true} color="bg-purple-400" />}
+                            </div>
+                        )}
                     </div>
                 </div>
 

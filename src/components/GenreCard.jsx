@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Play, Pause, Users, Search, GitBranch, X, BookOpen } from 'lucide-react';
 import { NavigationContext } from '../App';
 import { useMusicPlayer } from '../hooks/useMusicPlayer';
+import MusicBars from './MusicBars';
 
 const getArtistImage = (artistName) => {
     const encodedName = encodeURIComponent(artistName);
@@ -26,14 +27,32 @@ const GenreImagePlaceholder = ({ name, id }) => {
         'from-cyan-600 to-blue-600'
     ];
     const gradient = hues[sum % hues.length];
-
-    // Get initials (up to 2 chars)
     const initials = name.substring(0, 2).toUpperCase();
+    const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e) => {
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - left) / width - 0.5;
+        const y = (e.clientY - top) / height - 0.5;
+        // Subtle movement: max 10px
+        setOffset({ x: x * 10, y: y * 10 });
+    };
+
+    const handleMouseLeave = () => {
+        setOffset({ x: 0, y: 0 });
+    };
 
     return (
-        <div className={`w-full h-40 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden relative`}>
+        <div
+            className={`w-full h-40 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden relative`}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+        >
             {/* Background Watermark */}
-            <span className="absolute inset-0 flex items-center justify-center text-[5rem] font-black text-white opacity-[0.06] select-none whitespace-nowrap uppercase leading-none pointer-events-none z-0">
+            <span
+                className="absolute inset-0 flex items-center justify-center text-[5rem] font-black text-white opacity-[0.06] select-none whitespace-nowrap uppercase leading-none pointer-events-none z-0 transition-transform duration-100 ease-out"
+                style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+            >
                 {name}
             </span>
         </div>
@@ -119,6 +138,12 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                                 <Play size={20} fill="currentColor" />
                             )}
                         </button>
+                        {/* Music Visualizer */}
+                        {isPlaying && isAudioAvailable && (
+                            <div className="absolute left-10 top-2 lg:static">
+                                <MusicBars isPlaying={true} color="bg-purple-400" />
+                            </div>
+                        )}
                         <h3 className="text-xl font-black text-white leading-tight">
                             {name}
                         </h3>
