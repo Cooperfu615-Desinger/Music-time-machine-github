@@ -56,14 +56,19 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
     const { isPlaying, toggle } = useMusicPlayer(getMusicUrl());
 
     // Prevent scrolling on body when modal is open
+    // Prevent scrolling on body when modal is open and stop music on close
     React.useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+            // Fix #2: Stop music when modal closes
+            stop();
         }
         return () => {
             document.body.style.overflow = 'unset';
         };
-    }, [isOpen]);
+    }, [isOpen, stop]);
 
     if (!isOpen || !genre) return null;
 
