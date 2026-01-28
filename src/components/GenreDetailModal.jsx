@@ -53,7 +53,7 @@ const GenreDetailModal = ({ genre, isOpen, onClose }) => {
         }
         return null;
     };
-    const { isPlaying, toggle } = useMusicPlayer(getMusicUrl());
+    const { isPlaying, toggle, stop } = useMusicPlayer(getMusicUrl());
 
     // Prevent scrolling on body when modal is open
     // Prevent scrolling on body when modal is open and stop music on close

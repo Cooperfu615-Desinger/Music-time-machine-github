@@ -7,6 +7,7 @@ import GenreDetailModal from './components/GenreDetailModal';
 import './core/i18n';
 import { useTranslation } from 'react-i18next';
 import { Globe } from 'lucide-react';
+import AudioErrorToast from './components/AudioErrorToast';
 
 // Create Context for navigation
 export const NavigationContext = React.createContext({
@@ -328,6 +329,9 @@ const App = () => {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 />
+
+                {/* Audio Error Notifications */}
+                <AudioErrorToast />
             </div>
         </NavigationContext.Provider>
     );

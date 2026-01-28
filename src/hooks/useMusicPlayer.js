@@ -7,6 +7,12 @@ let currentAudio = null;
 export const useMusicPlayer = (audioUrl) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
+    const isPlayingRef = useRef(isPlaying);
+
+    // Keep ref in sync with state to avoid stale closure in event listeners
+    useEffect(() => {
+        isPlayingRef.current = isPlaying;
+    }, [isPlaying]);
 
     // Initialize/Update Audio Object
     useEffect(() => {
@@ -28,7 +34,22 @@ export const useMusicPlayer = (audioUrl) => {
                 if (currentAudio === audio) currentAudio = null;
             };
             const handleError = (e) => {
-                console.error("Audio error:", e);
+                console.error("Audio load/play error:", e);
+
+                // Provide user-friendly feedback for different error types
+                if (e.type === 'error' && audio.error) {
+                    const errorCode = audio.error.code;
+                    if (errorCode === 4) {
+                        console.warn(`⚠️ Audio file not found (404): ${audioUrl}`);
+                        // Dispatch custom event for UI notification
+                        window.dispatchEvent(new CustomEvent('audio-load-failed', {
+                            detail: { url: audioUrl, message: 'Audio file not found' }
+                        }));
+                    } else {
+                        console.error(`❌ Audio error code ${errorCode}:`, audio.error.message);
+                    }
+                }
+
                 setIsPlaying(false);
                 if (currentAudio === audio) currentAudio = null;
             };
@@ -54,20 +75,18 @@ export const useMusicPlayer = (audioUrl) => {
     // Global Stop Listener: Update UI if some other player started
     useEffect(() => {
         const onGlobalStop = (e) => {
-            // If the event Detail ID is NOT us, or generic stop...
-            // Simplest: if we are supposed to be playing, but global currentAudio is NOT us, then we must stop.
-            if (audioRef.current && currentAudio !== audioRef.current && isPlaying) {
-                setIsPlaying(false);
-                // Note: audioRef.current.pause() is typically called by the *starter* of the new track, 
-                // or we can ensure it here.
+            // If another player started, stop this one
+            if (audioRef.current && currentAudio !== audioRef.current) {
+                // Always pause and update state, regardless of current paused state
+                // (audio may already be paused by the new player's play() function)
                 audioRef.current.pause();
+                setIsPlaying(false);
             }
         };
 
         window.addEventListener('music-stop-all', onGlobalStop);
         return () => window.removeEventListener('music-stop-all', onGlobalStop);
-    }, [isPlaying]); // Re-bind if state changes, or ok to bind once? Bind once is fine if we use refs. 
-    // Actually safe to remove dep if we check refs.
+    }, []); // No dependencies - we use refs and currentAudio global
 
     const play = useCallback(() => {
         if (!audioRef.current) return;
@@ -75,17 +94,33 @@ export const useMusicPlayer = (audioUrl) => {
         // 1. Stop global current audio if it's not us
         if (currentAudio && currentAudio !== audioRef.current) {
             currentAudio.pause();
-            // Notify others
+            currentAudio = null; // Clear BEFORE dispatching event
+            // Notify others - they will now see currentAudio !== their audioRef
             window.dispatchEvent(new CustomEvent('music-stop-all'));
         }
 
-        // 2. Play us
+        // 2. Play us with comprehensive error handling
         audioRef.current.play()
             .then(() => {
                 currentAudio = audioRef.current;
                 setIsPlaying(true);
             })
-            .catch(e => console.error("Play failed", e));
+            .catch(e => {
+                console.error("Play failed:", e);
+                setIsPlaying(false); // CRITICAL: Reset UI state on error
+
+                // Distinguish error types for better debugging and user feedback
+                if (e.name === 'NotAllowedError') {
+                    console.warn('⚠️ Autoplay blocked - user interaction required');
+                } else if (e.name === 'NotSupportedError') {
+                    console.error('❌ Audio format not supported');
+                    window.dispatchEvent(new CustomEvent('audio-play-failed', {
+                        detail: { url: audioRef.current?.src, message: 'Audio format not supported' }
+                    }));
+                } else {
+                    console.error('❌ Unknown playback error:', e.message);
+                }
+            });
 
     }, []);
 
