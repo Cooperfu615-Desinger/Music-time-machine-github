@@ -99,6 +99,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
 
             {/* Image Section */}
             <div className="w-full h-40 overflow-hidden relative bg-neutral-900">
+                {/* Background Image (if available) */}
                 {item.imagePath && !imageError ? (
                     <img
                         src={`${import.meta.env.BASE_URL}${item.imagePath.substring(1)}`}
@@ -109,12 +110,12 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                     />
                 ) : null}
 
-                {/* Fallback Placeholder if image missing or error */}
-                {(!item.imagePath || imageError) && (
-                    <div className="w-full h-full flex flex-col items-center justify-center">
-                        <GenreImagePlaceholder name={name} id={item.id} />
-                    </div>
-                )}
+                {/* Always show watermark typography overlay */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="text-[5rem] font-black text-white opacity-[0.08] select-none whitespace-nowrap uppercase leading-none">
+                        {name}
+                    </span>
+                </div>
 
                 {/* Overlay Text Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent"></div>
