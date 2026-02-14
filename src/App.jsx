@@ -260,9 +260,9 @@ const App = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-fade-in-up delay-100">
-                                {timelineData[selectedYear].map((genreId, index) => {
+                                {timelineData[selectedYear].map((genreId) => {
                                     const item = genresData[genreId];
-                                    return item ? <GenreCard key={index} item={item} isAudioAvailable={audioAvailability[genreId]} isHighlighted={highlightedId === genreId} /> : null;
+                                    return item ? <GenreCard key={genreId} item={item} isAudioAvailable={audioAvailability[genreId]} isHighlighted={highlightedId === genreId} /> : null;
                                 })}
                             </div>
                         </>
@@ -294,8 +294,8 @@ const App = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                                 {filteredGenres.length > 0 ? (
-                                    filteredGenres.map((item, index) => (
-                                        <GenreCard key={index} item={item} isAudioAvailable={audioAvailability[item.id]} isHighlighted={highlightedId === item.id} />
+                                    filteredGenres.map((item) => (
+                                        <GenreCard key={item.id} item={item} isAudioAvailable={audioAvailability[item.id]} isHighlighted={highlightedId === item.id} />
                                     ))
                                 ) : (
                                     <div className="col-span-full text-center py-20 text-neutral-500">

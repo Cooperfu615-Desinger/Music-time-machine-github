@@ -64,6 +64,7 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
     const { jumpToGenre, openModal } = useContext(NavigationContext);
     const [showSubGenres, setShowSubGenres] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     // Music Logic
     const getMusicUrl = () => {
@@ -105,7 +106,8 @@ const GenreCard = ({ item, isAudioAvailable = false, isHighlighted = false }) =>
                         src={`${import.meta.env.BASE_URL}${item.imagePath.substring(1)}`}
                         alt={name}
                         loading="lazy"
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        onLoad={() => setIsLoaded(true)}
+                        className={`w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                         onError={() => setImageError(true)}
                     />
                 ) : null}
